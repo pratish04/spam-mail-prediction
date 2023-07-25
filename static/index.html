@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Input Form</title>
+</head>
+
+<body>
+    <h1>Enter your data:</h1>
+    <form id="inputForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+    <div id="output">
+    </div>
+
+    <script>
+        document.getElementById("inputForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+            sendData();
+        });
+
+        function sendData() {
+            const name = document.getElementById("name").value;
+            const data = { name: name };
+            console.log(data);
+
+            fetch("http://127.0.0.1:5000/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => response.json())
+                .then(result => {
+                    console.log("Server Response:", result);                    
+                    if(result.prediction===1){
+                        document.getElementById("output").innerHTML = "Ham mail!";
+                    }
+                    else if(result.prediction===0){
+                        document.getElementById("output").innerHTML = "Spam mail!";   
+                    }
+                })
+                .catch(error => {
+                    alert("Error occurred while sending data.");
+                    console.error("Error:", error);
+                });
+        }
+    </script>
+</body>
+
+</html>
