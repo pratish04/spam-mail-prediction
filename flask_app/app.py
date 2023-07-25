@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, g
 from flask_cors import CORS
+import os
 import joblib
 from sklearn.feature_extraction.text import TfidfVectorizer
 
