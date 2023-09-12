@@ -2,18 +2,23 @@
 <html>
 
 <head>
-    <title>Input Form</title>
+    <title>Spam Mail Prediction Tool</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <h1>Enter your data:</h1>
-    <form id="inputForm">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
-        <br>
-        <input type="submit" value="Submit">
-    </form>
-    <div id="output">
+    <div class="container">
+        <h1>SPAM MAIL PREDICTION TOOL USING LOGISTIC REGRESSION</h1>
+        <form id="inputForm">
+            <textarea type="text" name="mail" id="mail" placeholder="Enter mail body here..." required></textarea>
+            <div>
+                <input type="submit" value="Submit" id="submit" />
+                <span class="loader" id="loader"></span>
+            </div>
+            <div id="output">
+                lsdhf
+            </div>
+        </form>
     </div>
 
     <script>
@@ -23,8 +28,9 @@
         });
 
         function sendData() {
-            const name = document.getElementById("name").value;
-            const data = { name: name };
+            document.getElementById("loader").style.display = "inline-block";
+            const mail = document.getElementById("mail").value;
+            const data = { name: mail };
             console.log(data);
 
             fetch("http://127.0.0.1:5000/", {
@@ -36,13 +42,15 @@
             })
                 .then(response => response.json())
                 .then(result => {
-                    console.log("Server Response:", result);                    
-                    if(result.prediction===1){
-                        document.getElementById("output").innerHTML = "Ham mail!";
+                    console.log("Server Response:", result);
+                    if (result.prediction === 1) {
+                        document.getElementById("output").innerHTML = "This is a Ham mail!";
                     }
-                    else if(result.prediction===0){
-                        document.getElementById("output").innerHTML = "Spam mail!";   
+                    else if (result.prediction === 0) {
+                        document.getElementById("output").innerHTML = "This is a Spam mail!";
                     }
+                    document.getElementById("output").style.display = "block";
+                    document.getElementById("loader").style.display = "none";
                 })
                 .catch(error => {
                     alert("Error occurred while sending data.");
