@@ -50,6 +50,9 @@
                     }
                     document.getElementById("output").style.display = "block";
                     document.getElementById("loader").style.display = "none";
+                    setInterval(()=>{
+                        document.getElementById("output").style.display = "none";
+                    }, 5000);
                 })
                 .catch(error => {
                     alert("Error occurred while sending data.");
